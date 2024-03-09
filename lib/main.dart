@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tasawak/domain/di/di.dart';
+import 'package:tasawak/presentation/screens/auth/login/login.dart';
+import 'package:tasawak/presentation/screens/auth/register/register.dart';
+import 'package:tasawak/presentation/screens/main/main.dart';
+import 'package:tasawak/presentation/screens/splash/splash_screen.dart';
+import 'package:tasawak/presentation/utils/app_theme.dart';
 
-import 'ui/screens/auth/login/login.dart';
-import 'ui/screens/auth/register/register.dart';
-import 'ui/screens/main/main.dart';
-import 'ui/screens/splash/splash_screen.dart';
-import 'ui/utils/app_theme.dart';
 
 void main() {
+  configureDependencies();
   runApp(const TaswakApp());
 }
 
