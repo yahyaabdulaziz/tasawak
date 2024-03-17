@@ -3,7 +3,7 @@ import 'package:tasawak/data/model/base_response.dart';
 import 'category_dm.dart';
 import 'metadata.dart';
 
-class CategoriesResponse extends BaseResponse {
+class CategoriesResponse extends BaseResponseM {
   int? results;
   Metadata? metadata;
   List<CategoryDM>? data;

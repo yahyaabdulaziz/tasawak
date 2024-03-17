@@ -1,3 +1,3 @@
-class BaseResponse {
+class BaseResponseM {
   String? message;
 }

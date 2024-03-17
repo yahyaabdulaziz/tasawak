@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/data/model/response/product_dm.dart';
+import 'package:tasawak/presentation/screens/product_datails/product_datails_screen.dart';
+import 'package:tasawak/presentation/shared_view_models/cart_view_model.dart';
 import 'package:tasawak/presentation/widgets/loading_widget.dart';
 
 import '../utils/app_assets.dart';
@@ -8,8 +11,10 @@ import '../utils/app_color.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductDM productDM;
+  final bool isInCart;
 
-  const ProductItem(this.productDM, {super.key});
+  const ProductItem(
+      {required this.productDM, super.key, required this.isInCart});
 
   @override
   State<ProductItem> createState() => ProductItemState();
@@ -24,7 +29,10 @@ class ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+            arguments: widget.productDM);
+      },
       child: Container(
         padding: const EdgeInsets.all(6),
         width: MediaQuery.of(context).size.width * .4,
@@ -81,9 +89,16 @@ class ProductItemState extends State<ProductItem> {
                   height: 30,
                   child: FloatingActionButton(
                     backgroundColor: AppColors.primaryColor,
-                    onPressed: () {},
-                    child: const Icon(
-                      Icons.add,
+                    onPressed: () {
+                      CartViewModel cart = BlocProvider.of(context);
+                      if (widget.isInCart) {
+                        cart.removeProductFromCart(widget.productDM.id!);
+                      } else {
+                        cart.addProductToCart(widget.productDM.id!);
+                      }
+                    },
+                    child: Icon(
+                      widget.isInCart ? Icons.remove : Icons.add,
                       color: Colors.white,
                     ),
                   ),

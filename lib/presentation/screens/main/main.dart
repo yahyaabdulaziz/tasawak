@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasawak/presentation/screens/main/main_view_model.dart';
+import 'package:tasawak/presentation/shared_view_models/cart_view_model.dart';
 import 'package:tasawak/presentation/utils/app_assets.dart';
 import 'package:tasawak/presentation/utils/app_color.dart';
 
@@ -9,18 +10,31 @@ import 'tabs/fav/fav_tab.dart';
 import 'tabs/home/home_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 
-class Main extends StatelessWidget {
+class Main extends StatefulWidget {
   static const String routeName = "home";
 
   Main({super.key});
 
+  @override
+  State<Main> createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
   final List<Widget> tabs = [
     const HomeTab(),
     const CategoriesTab(),
     const FAVTab(),
     const ProfileTab(),
   ];
+
   MainViewModel viewModel = MainViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    CartViewModel viewModel = BlocProvider.of(context);
+    viewModel.getLoggedUserCart();
+  }
 
   @override
   Widget build(BuildContext context) {

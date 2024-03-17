@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tasawak/data/model/failure.dart';
+import 'package:tasawak/data/model/response/cart_dm.dart';
 import 'package:tasawak/data/model/response/category_dm.dart';
 import 'package:tasawak/data/model/response/product_dm.dart';
 import 'package:tasawak/domain/repos/main_repo/data_source/main_online_ds.dart';
@@ -29,6 +30,33 @@ class MainRepoImpl extends MainRepo {
   Future<Either<Failure, List<ProductDM>>> getProducts() async {
     if (await connectivity.isInternetConnected) {
       return mainOnlineDs.getProducts();
+    } else {
+      return Left(Failure(Constants.internetErrorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartDM>> addProductToCart(String id) async {
+    if (await connectivity.isInternetConnected) {
+      return mainOnlineDs.addProductToCart(id);
+    } else {
+      return Left(Failure(Constants.internetErrorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartDM>> getLoggedUserCart() async {
+    if (await connectivity.isInternetConnected) {
+      return mainOnlineDs.getLoggedUserCart();
+    } else {
+      return Left(Failure(Constants.internetErrorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartDM>> removeProductFromCart(String id) async {
+    if (await connectivity.isInternetConnected) {
+      return mainOnlineDs.removeProductFromCart(id);
     } else {
       return Left(Failure(Constants.internetErrorMessage));
     }
